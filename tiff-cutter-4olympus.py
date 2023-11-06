@@ -21,9 +21,8 @@ def metadata_parser(file_path):
         line_number = 0
         for line in file:
             if starting_string in line:
-                count += 1
-
-
+                line_number += 1
+        
 
 def file_finder(directory):
     files = []  # To store the paths of .txt files
@@ -61,7 +60,7 @@ def main():
 
     files = file_lister(DIRECTORIES)
 
-    for file in files:
+    #for file in files:
         
         
 
