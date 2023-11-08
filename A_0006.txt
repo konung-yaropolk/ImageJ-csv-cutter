@@ -61,7 +61,7 @@
 "Event Contents"	"DRS C 10Hz 2s"
 "Event Timer"	"121626.759000[ms]"
 "[Event 3]"	""
-"Event Contents"	"DRS A 10Hz 2s""
+"Event Contents"	"DRS A 10Hz 2s"
 "Event Timer"	"171508.525000[ms]"
 "[Event 4]"	""
 "Event Contents"	"DRS A+C 0.1Hz 100s"

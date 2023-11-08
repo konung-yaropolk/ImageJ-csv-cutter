@@ -6,24 +6,28 @@ TIME_BEFORE_TRIG = 10    # in sec.
 TIME_AFTER_TRIG  = 30    # in sec.
 
 DIRECTORIES = [
-    'F:/Lab Work Files/scripts/TIFF-cutter-4olympus',
-    # 'F:\Lab Work Files\\2-photon',
+    'F:/Lab Work Files/scripts/ImageJ-cvs-cutter',
+    # 'F:/Lab Work Files/2-photon',
+    
 ]
 
 
 
 
-def metadata_parser(file_path):
+def metadata_parser(file_path):    
+    events = []
 
-    starting_string = '""[Event 1]"	"""'
+    with open(file_path + '.txt', 'r') as file:
 
-    with open(file_path, 'r') as file:
+        trigger = '"[Event '
+        strings = file.readlines()
 
-        line_number = 0
-        for line in file:
-            if starting_string in line:
-                line_number += 1
-        
+        for i, line in enumerate(strings):
+            if trigger in line:
+                events.append([strings[i+1][18:-2], float(strings[i+2][15:-6])])
+
+    return events
+       
 
 def file_finder(directory):
     files_list = []  # To store the paths of .txt files
@@ -59,10 +63,11 @@ def file_lister(directories):
 
 def main():
 
-    files = file_lister(DIRECTORIES)
-    print(files)
+    metadatas = file_lister(DIRECTORIES)
 
-    #for file in files:
+    for file in metadatas:
+        print(metadata_parser(file))
+    
         
         
 
