@@ -8,13 +8,14 @@ TIME_AFTER_TRIG  = 30    # in sec.
 
 DIRECTORIES = [
     # 'C:/Users/yarop/Coding/ImageJ-csv-cutter/',
-     'F:/Lab Work Files/scripts/ImageJ-csv-cutter',
+     'F:/Lab Work Files/scripts/ImageJ-csv-cutter/',
+    'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco + DRS + Bicuculine/2022_12_09/',
     # 'F:/Lab Work Files/2-photon',
     
 ]
 
 
-def metadata_parser(path, file):    
+def parser(path, file):    
     file_path = path + file
     events = []
 
@@ -38,9 +39,9 @@ def file_finder(path, pattern):
         for filename in files:
             #if file.endswith('.txt') and not file.startswith('!'):
             if re.search(pattern, filename):
-                files_list.append([root + '/', filename[:-4]])
+                files_list.append([root if root[-1] == '/' else root + '/', filename[:-4]])
 
-    return files_list[0]
+    return files_list
 
 
 def file_lister(path, pattern):
@@ -50,10 +51,8 @@ def file_lister(path, pattern):
         
         files.extend(file_finder(path, pattern))
         
-        if files:
-            print("Open path: ", path)
-        else:
-            print("No files found in the: ", path)
+        # if not files:
+        #     print("No files found in the: ", path)
 
     else:
         print("Invalid directory path: ", path)
@@ -61,15 +60,33 @@ def file_lister(path, pattern):
     return files
 
 
+#def get_csv_list(metadata_list):
+
+
 def main():
 
-    metadatas = [file_lister(dir, r'^[^!].*\.txt$') for dir in DIRECTORIES]
-    print(metadatas)
-    for path, file in metadatas:
-        metadata = metadata_parser(path, file)
-        print(metadata)
+    metadata_list = []
 
-        #if file_lister(file, r'^[^!].*\.txt$'):
+    for dir in DIRECTORIES:
+        metadata_list.extend(file_lister(dir, r'^[^!].*\.txt$'))
+
+    print(metadata_list)
+
+    csv_list = []
+
+    for path, file in metadata_list:
+        metadata = parser(path, file)
+        #print(metadata)
+
+        csv_list.append(file_lister(path, r'^' + file + r'.*\.csv$'))
+
+        # if csv_list:
+        #     return csv_list
+        # else:
+        #     return []
+
+    print(csv_list)
+
 
 
     
