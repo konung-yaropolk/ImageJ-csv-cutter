@@ -6,11 +6,14 @@ TIME_BEFORE_TRIG = 10    # in sec.
 TIME_AFTER_TRIG  = 30    # in sec.
 
 DIRECTORIES = [
-    'F:/Lab Work Files/scripts/ImageJ-cvs-cutter',
+    'C:/Users/yarop/Coding/ImageJ-cvs-cutter/'
+    # 'F:/Lab Work Files/scripts/ImageJ-cvs-cutter',
     # 'F:/Lab Work Files/2-photon',
     
 ]
 
+
+#def is_csv_files_exist():
 
 
 
@@ -67,6 +70,8 @@ def main():
 
     for file in metadatas:
         print(metadata_parser(file))
+      #  if is_csv_files_exist(file):
+
     
         
         
