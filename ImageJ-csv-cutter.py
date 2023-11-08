@@ -7,8 +7,8 @@ TIME_BEFORE_TRIG = 10    # in sec.
 TIME_AFTER_TRIG  = 30    # in sec.
 
 DIRECTORIES = [
-    # 'C:/Users/yarop/Coding/ImageJ-cvs-cutter/',
-     'F:/Lab Work Files/scripts/ImageJ-cvs-cutter',
+    # 'C:/Users/yarop/Coding/ImageJ-csv-cutter/',
+     'F:/Lab Work Files/scripts/ImageJ-csv-cutter',
     # 'F:/Lab Work Files/2-photon',
     
 ]
