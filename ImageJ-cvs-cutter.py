@@ -2,11 +2,12 @@
 import os
 
 
-TIME_BEFORE = 10    # in sec.
-TIME_AFTER  = 30    # in sec.
+TIME_BEFORE_TRIG = 10    # in sec.
+TIME_AFTER_TRIG  = 30    # in sec.
 
 DIRECTORIES = [
-    'F:\Lab Work Files\\2-photon',
+    'F:/Lab Work Files/scripts/TIFF-cutter-4olympus',
+    # 'F:\Lab Work Files\\2-photon',
 ]
 
 
@@ -25,15 +26,15 @@ def metadata_parser(file_path):
         
 
 def file_finder(directory):
-    files = []  # To store the paths of .txt files
+    files_list = []  # To store the paths of .txt files
 
     # Walk through the directory and its subdirectories
     for root, _, files in os.walk(directory):
         for file in files:
-            if file.endswith(".txt") and not file.startswith("!") :
-                files.append(os.path.join(root, file[:-4]))
+            if file.endswith('.txt') and not file.startswith('!'):
+                files_list.append(os.path.join(root, file[:-4]))
 
-    return files
+    return files_list
 
 
 def file_lister(directories):
@@ -59,6 +60,7 @@ def file_lister(directories):
 def main():
 
     files = file_lister(DIRECTORIES)
+    print(files)
 
     #for file in files:
         
