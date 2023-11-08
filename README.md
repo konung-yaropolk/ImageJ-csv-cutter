@@ -1,2 +1,2 @@
 # TIFF-cutter-4olympus
-Simple tool to cut your Olympus Confocal TIFF movies based on events timing in metadata
+Simple tool to cut your ImageJ ROI cvs-measurements based on Olympus Confocal events timing in metadata
