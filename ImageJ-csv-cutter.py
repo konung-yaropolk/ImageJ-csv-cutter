@@ -58,7 +58,7 @@ def file_lister(path, pattern):
     return files
 
 
-def zero_index_finder(content, time):
+def zero_point_adjuster(content, time):
     content = [float(i)-time for i in list(zip(*content))[0]]
     diffs = [abs(i) for i in content]
     t_zero_index = diffs.index(min(diffs))
@@ -79,8 +79,8 @@ def csv_write(csv_output, path, file, event_name, i):
 def csv_cutter(content, eventname, time):
     timeline_zero = [float(i)-time for i in list(zip(*content))[0]]
 
-    start = zero_index_finder(content, time - s.TIME_BEFORE_TRIG)
-    end = zero_index_finder(content, time + s.TIME_AFTER_TRIG)
+    start = zero_point_adjuster(content, time - s.TIME_BEFORE_TRIG)
+    end = zero_point_adjuster(content, time + s.TIME_AFTER_TRIG)
     
     content = list(zip(*content))[1:]
     content[:0] = [timeline_zero]
