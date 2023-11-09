@@ -48,10 +48,7 @@ def file_lister(path, pattern):
     files = []
 
     if os.path.isdir(path):        
-        files.extend(file_finder(path, pattern))        
-        # if not files:
-        #     print("No files found in the: ", path)
-
+        files.extend(file_finder(path, pattern))                
     else:
         print("!!!    Fail: invalid path        ", path)
     
@@ -88,6 +85,7 @@ def csv_cutter(content, eventname, time):
 
     return csv_output
 
+
 def csv_transform(content_raw, t_resolution):
     first_col = [str(i*t_resolution) for i in range(len(content_raw))]
     content = list(zip(*content_raw))[2::4]
@@ -108,7 +106,7 @@ def csv_read(patch, file):
 
 def csv_process(path, file, metadata, t_resolution=1000):
     csv_list = []
-    csv_list.extend(file_lister(path, r'^' + file + r'.*\.csv$'))
+    csv_list.extend(file_lister(path, r'.*' + re.escape(file) + r'.*\.csv$'))
 
     if csv_list != []:
 
@@ -125,7 +123,6 @@ def csv_process(path, file, metadata, t_resolution=1000):
     else:
         result = '!!!    Fail: no csv files for     {}{}'.format(path, file)
                 
-    #print('\n',csv_list, '\n')    
     csv_list = None
     return result
 
