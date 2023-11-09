@@ -71,11 +71,11 @@ def file_lister(path, pattern):
 
 
 def csv_transform(content_raw, time_resolution):
-    content = content_raw[1:][2::3]
 
-    #first_col = range(len(content))*time_resolution
-
-
+    first_col = [str(i*time_resolution) for i in range(len(content_raw))]
+    content = list(zip(*content_raw))[2::4]
+    content[:0] = [first_col]
+    content = list(zip(*content))[1:]
 
     return content
 
@@ -89,14 +89,14 @@ def csv_read(patch, file):
     return content_raw
 
 
-def csv_process(path, file, metadata):
+def csv_process(path, file, metadata, time_resolution=1):
     csv_list = []
     csv_list.extend(file_lister(path, r'^' + file + r'.*\.csv$'))
 
     if csv_list != []:
         for path, file in csv_list:
             content_raw = csv_read(path, file)
-            content = csv_transform(content_raw, 2) #time_resolution)       
+            content = csv_transform(content_raw, time_resolution)     
 
             for event in metadata:
                 csv_output = csv_cutter(content, *event)
@@ -121,13 +121,13 @@ def main():
 
     # append metadata to the queue
     for i, elem in enumerate(queue):
-        metadata = metadata_parse(elem[0], elem[1])
+        metadata = metadata_parse(elem[0], elem[1])        # , time_resolution
         queue[i].append(metadata)
 
     #print(queue)
 
     for path, file, metadata in queue:
-        result = csv_process(path, file, metadata)
+        result = csv_process(path, file, metadata)     #  time_resolution
         print(result)
 
 
