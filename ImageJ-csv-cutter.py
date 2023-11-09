@@ -78,8 +78,8 @@ def zero_index_finder(content, time):
 
 def csv_write(csv_output, path, file, event_name, i):
 
-    os.makedirs(path + file + '/', exist_ok=True)
-    with open(path + file + '/' + str(i+1) + '_' + event_name + '.csv', 'w') as f:
+    os.makedirs(path + file + '_events/', exist_ok=True)
+    with open(path + file + '_events/' + str(i+1) + '_' + event_name + '.csv', 'w') as f:
 
         writer = csv.writer(f, delimiter=',', lineterminator='\r',)
         for row in csv_output:
