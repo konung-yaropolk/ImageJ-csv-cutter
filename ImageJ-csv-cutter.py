@@ -53,7 +53,7 @@ def file_lister(path, pattern):
         #     print("No files found in the: ", path)
 
     else:
-        print("!!!    Invalid directory path: ", path)
+        print("!!!    Fail: invalid path        ", path)
     
     return files
 
