@@ -18,21 +18,26 @@ DIRECTORIES = [
 
 
 
-def metadata_parse(path, file):    
+def metadata_parser(path, file):    
     file_path = path + file
     events = []
 
-    with open(file_path + '.txt', 'r') as file:
+    with open(file_path + '.txt', 'r') as file:        
 
         trigger = '"[Event '
         strings = file.readlines()
 
+        string = strings[12]
+        n_slides = int(re.findall(r'\	"([^[]*), ', string)[0])
+        t_duration = float(re.findall(r'- ([^[]*)\ \[', string)[0])
+        t_resolution = t_duration/n_slides
+
         for i, line in enumerate(strings):
 
             if trigger in line:
-                events.append([strings[i+1][18:-2], float(strings[i+2][15:-6])])
+                events.append([strings[i+1][18:-2], float(strings[i+2][15:-6])/1000])
 
-    return events
+    return events, t_resolution
        
 
 def file_finder(path, pattern):
@@ -70,9 +75,9 @@ def file_lister(path, pattern):
 
 
 
-def csv_transform(content_raw, time_resolution):
+def csv_transform(content_raw, t_resolution):
 
-    first_col = [str(i*time_resolution) for i in range(len(content_raw))]
+    first_col = [str(i*t_resolution) for i in range(len(content_raw))]
     content = list(zip(*content_raw))[2::4]
     content[:0] = [first_col]
     content = list(zip(*content))[1:]
@@ -89,14 +94,14 @@ def csv_read(patch, file):
     return content_raw
 
 
-def csv_process(path, file, metadata, time_resolution=1):
+def csv_process(path, file, metadata, t_resolution=1000):
     csv_list = []
     csv_list.extend(file_lister(path, r'^' + file + r'.*\.csv$'))
 
     if csv_list != []:
         for path, file in csv_list:
             content_raw = csv_read(path, file)
-            content = csv_transform(content_raw, time_resolution)     
+            content = csv_transform(content_raw, t_resolution)     
 
             for event in metadata:
                 csv_output = csv_cutter(content, *event)
@@ -121,13 +126,14 @@ def main():
 
     # append metadata to the queue
     for i, elem in enumerate(queue):
-        metadata = metadata_parse(elem[0], elem[1])        # , time_resolution
+        metadata, t_resolution = metadata_parser(elem[0], elem[1])
         queue[i].append(metadata)
+        queue[i].append(t_resolution)
 
     #print(queue)
 
-    for path, file, metadata in queue:
-        result = csv_process(path, file, metadata)     #  time_resolution
+    for path, file, metadata, t_resolution in queue:
+        result = csv_process(path, file, metadata, t_resolution)
         print(result)
 
 
