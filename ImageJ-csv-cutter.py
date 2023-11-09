@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import os
 import re
+import csv
+
 
 
 TIME_BEFORE_TRIG = 10    # in sec.
@@ -8,14 +10,15 @@ TIME_AFTER_TRIG  = 30    # in sec.
 
 DIRECTORIES = [
     # 'C:/Users/yarop/Coding/ImageJ-csv-cutter/',
-     'F:/Lab Work Files/scripts/ImageJ-csv-cutter/',
+     'I:/Lab Work Files/scripts/ImageJ-csv-cutter/',
     # 'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco + DRS + Bicuculine/2022_12_09/',
     # 'F:/Lab Work Files/2-photon',
     
 ]
 
 
-def parse(path, file):    
+
+def metadata_parse(path, file):    
     file_path = path + file
     events = []
 
@@ -59,25 +62,57 @@ def file_lister(path, pattern):
     
     return files
 
-#def csv_transforming(patch, file, metadata):
+
+# def csv_write(csv_output, path, file, event_name):
 
 
-def process_csv(path, file, metadata):
+# def csv_cutter(content, eventname, time):
 
+
+
+def csv_transform(content_raw, time_resolution):
+    content = content_raw[1:][2::3]
+
+    #first_col = range(len(content))*time_resolution
+
+
+
+    return content
+
+
+def csv_read(patch, file):
+
+    with open(patch + file + '.csv', 'r') as file:
+        reader = csv.reader(file, delimiter=',')
+        content_raw = tuple(reader)
+
+    return content_raw
+
+
+def csv_process(path, file, metadata):
     csv_list = []
     csv_list.extend(file_lister(path, r'^' + file + r'.*\.csv$'))
 
     if csv_list != []:
-        for patch, file in csv_list:
-            #csv_transforming(patch, file, metadata)
-            print(patch+file)
+        for path, file in csv_list:
+            content_raw = csv_read(path, file)
+            content = csv_transform(content_raw, 2) #time_resolution)       
 
+            for event in metadata:
+                csv_output = csv_cutter(content, *event)
+                csv_write(csv_output, path, file ,event[0])
+
+        result = '***    csv files for {}{} - Done!'.format(path, file)
+    
+    else:
+        result = '!!!    no csv files for {}{}'.format(path, file)
+                
     #print('\n',csv_list, '\n')    
     csv_list = None
+    return result
 
 
 def main():
-
     queue = []
 
     # walk thrue directories to add files to the queue 
@@ -86,16 +121,14 @@ def main():
 
     # append metadata to the queue
     for i, elem in enumerate(queue):
-        metadata = parse(elem[0], elem[1])
+        metadata = metadata_parse(elem[0], elem[1])
         queue[i].append(metadata)
 
-    print(queue)
+    #print(queue)
 
     for path, file, metadata in queue:
-        process_csv(path, file, metadata)
-
-        
-
+        result = csv_process(path, file, metadata)
+        print(result)
 
 
 if __name__ == "__main__":
