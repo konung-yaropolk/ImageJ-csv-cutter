@@ -2,20 +2,7 @@
 import os
 import re
 import csv
-
-
-
-TIME_BEFORE_TRIG = 10    # in sec.
-TIME_AFTER_TRIG  = 30    # in sec.
-
-DIRECTORIES = [
-    # 'C:/Users/yarop/Coding/ImageJ-csv-cutter/',
-     'I:/Lab Work Files/scripts/ImageJ-csv-cutter/',
-    # 'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco + DRS + Bicuculine/2022_12_09/',
-    # 'F:/Lab Work Files/2-photon',
-    
-]
-
+import settings as s
 
 
 def metadata_parser(path, file):    
@@ -28,6 +15,9 @@ def metadata_parser(path, file):
         strings = file.readlines()
 
         string = strings[12]
+        if not string.startswith('"T Dimension"'):
+            raise ValueError
+
         n_slides = int(re.findall(r'\	"([^[]*), ', string)[0])
         t_duration = float(re.findall(r'- ([^[]*)\ \[', string)[0])
         t_resolution = t_duration/n_slides
@@ -89,8 +79,8 @@ def csv_write(csv_output, path, file, event_name, i):
 def csv_cutter(content, eventname, time):
     timeline_zero = [float(i)-time for i in list(zip(*content))[0]]
 
-    start = zero_index_finder(content, time - TIME_BEFORE_TRIG)
-    end = zero_index_finder(content, time + TIME_AFTER_TRIG)
+    start = zero_index_finder(content, time - s.TIME_BEFORE_TRIG)
+    end = zero_index_finder(content, time + s.TIME_AFTER_TRIG)
     
     content = list(zip(*content))[1:]
     content[:0] = [timeline_zero]
@@ -130,10 +120,10 @@ def csv_process(path, file, metadata, t_resolution=1000):
                 csv_output = csv_cutter(content, *event)
                 csv_write(csv_output, csv_path, csv_file ,event[0], i)
 
-        result = '***    csv files for        {}{} - Done!'.format(path, file)
+        result = '***    Done: csv files for        {}{}'.format(path, file)
     
     else:
-        result = '!!!    no csv files for     {}{} - Fail!'.format(path, file)
+        result = '!!!    Fail: no csv files for     {}{}'.format(path, file)
                 
     #print('\n',csv_list, '\n')    
     csv_list = None
@@ -141,26 +131,33 @@ def csv_process(path, file, metadata, t_resolution=1000):
 
 
 def main():
+
     queue = []
 
     # walk thrue directories to add files to the queue 
-    for dir in DIRECTORIES:
+    for dir in s.DIRECTORIES:
         queue.extend(file_lister(dir, r'^[^!].*\.txt$'))
 
     # append metadata to the queue
-    for i, elem in enumerate(queue):
-        try: metadata, t_resolution = metadata_parser(elem[0], elem[1])
-        except: 
-            print('!!!    wrong metadata for {}{}'.format(elem[0], elem[1]))
+    for i, item in enumerate(queue):
+        try: metadata, t_resolution = metadata_parser(item[0], item[1])
+        except Exception as _: 
+            print('!!!    Fail: wrong metadata for   {}{}'.format(item[0], item[1]))
             continue
         queue[i].append(metadata)
         queue[i].append(t_resolution)
 
-    #print(queue)
 
-    for path, file, metadata, t_resolution in queue:
-        result = csv_process(path, file, metadata, t_resolution)
-        print(result)
+    for item in queue:
+
+        if len(item)==4:
+            path, file, metadata, t_resolution = item
+            result = csv_process(path, file, metadata, t_resolution)
+            print(result)
+
+        else:
+            # print('!!!    Fail: no csv data to process {}{}'.format(item[0], item[1]))
+            continue
 
 
 if __name__ == "__main__":
