@@ -63,7 +63,7 @@ def file_lister(path, pattern):
         #     print("No files found in the: ", path)
 
     else:
-        print("Invalid directory path: ", path)
+        print("!!!    Invalid directory path: ", path)
     
     return files
 
@@ -76,7 +76,14 @@ def zero_index_finder(content, time):
     return t_zero_index
 
 
-# def csv_write(csv_output, path, file, event_name):
+def csv_write(csv_output, path, file, event_name, i):
+
+    os.makedirs(path + file + '/', exist_ok=True)
+    with open(path + file + '/' + str(i+1) + '_' + event_name + '.csv', 'w') as f:
+
+        writer = csv.writer(f, delimiter=',', lineterminator='\r',)
+        for row in csv_output:
+            writer.writerow(row)        
 
 
 def csv_cutter(content, eventname, time):
@@ -85,18 +92,13 @@ def csv_cutter(content, eventname, time):
     start = zero_index_finder(content, time - TIME_BEFORE_TRIG)
     end = zero_index_finder(content, time + TIME_AFTER_TRIG)
     
-
-    csv_output = content[start:end]
-
-    content = list(zip(*content_raw))[2::4]
-    content[:0] = [first_col]
     content = list(zip(*content))[1:]
-
+    content[:0] = [timeline_zero]
+    csv_output = list(zip(*content))[start:end]
 
     return csv_output
 
 def csv_transform(content_raw, t_resolution):
-
     first_col = [str(i*t_resolution) for i in range(len(content_raw))]
     content = list(zip(*content_raw))[2::4]
     content[:0] = [first_col]
@@ -120,18 +122,18 @@ def csv_process(path, file, metadata, t_resolution=1000):
 
     if csv_list != []:
 
-        for path, file in csv_list:
-            content_raw = csv_read(path, file)
+        for csv_path, csv_file in csv_list:
+            content_raw = csv_read(csv_path, csv_file)
             content = csv_transform(content_raw, t_resolution)     
 
-            for event in metadata:                
+            for i, event in enumerate(metadata):                
                 csv_output = csv_cutter(content, *event)
-                csv_write(csv_output, path, file ,event[0])
+                csv_write(csv_output, csv_path, csv_file ,event[0], i)
 
-        result = '***    csv files for {}{} - Done!'.format(path, file)
+        result = '***    csv files for        {}{} - Done!'.format(path, file)
     
     else:
-        result = '!!!    no csv files for {}{}'.format(path, file)
+        result = '!!!    no csv files for     {}{} - Fail!'.format(path, file)
                 
     #print('\n',csv_list, '\n')    
     csv_list = None
