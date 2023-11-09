@@ -68,12 +68,32 @@ def file_lister(path, pattern):
     return files
 
 
+def zero_index_finder(content, time):
+    content = [float(i)-time for i in list(zip(*content))[0]]
+    diffs = [abs(i) for i in content]
+    t_zero_index = diffs.index(min(diffs))
+
+    return t_zero_index
+
+
 # def csv_write(csv_output, path, file, event_name):
 
 
-# def csv_cutter(content, eventname, time):
+def csv_cutter(content, eventname, time):
+    timeline_zero = [float(i)-time for i in list(zip(*content))[0]]
+
+    start = zero_index_finder(content, time - TIME_BEFORE_TRIG)
+    end = zero_index_finder(content, time + TIME_AFTER_TRIG)
+    
+
+    csv_output = content[start:end]
+
+    content = list(zip(*content_raw))[2::4]
+    content[:0] = [first_col]
+    content = list(zip(*content))[1:]
 
 
+    return csv_output
 
 def csv_transform(content_raw, t_resolution):
 
@@ -99,11 +119,12 @@ def csv_process(path, file, metadata, t_resolution=1000):
     csv_list.extend(file_lister(path, r'^' + file + r'.*\.csv$'))
 
     if csv_list != []:
+
         for path, file in csv_list:
             content_raw = csv_read(path, file)
             content = csv_transform(content_raw, t_resolution)     
 
-            for event in metadata:
+            for event in metadata:                
                 csv_output = csv_cutter(content, *event)
                 csv_write(csv_output, path, file ,event[0])
 
@@ -126,7 +147,10 @@ def main():
 
     # append metadata to the queue
     for i, elem in enumerate(queue):
-        metadata, t_resolution = metadata_parser(elem[0], elem[1])
+        try: metadata, t_resolution = metadata_parser(elem[0], elem[1])
+        except: 
+            print('!!!    wrong metadata for {}{}'.format(elem[0], elem[1]))
+            continue
         queue[i].append(metadata)
         queue[i].append(t_resolution)
 
