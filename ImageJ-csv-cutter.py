@@ -6,10 +6,8 @@ import settings as s
 
 
 def metadata_parser(path, file):    
-    file_path = path + file
-    events = []
 
-    with open(file_path + '.txt', 'r') as file:        
+    with open(path + file + '.txt', 'r') as file:        
 
         trigger = '"[Event '
         strings = file.readlines()
@@ -21,11 +19,10 @@ def metadata_parser(path, file):
         n_slides = int(re.findall(r'\	"([^[]*), ', string)[0])
         t_duration = float(re.findall(r'- ([^[]*)\ \[', string)[0])
         t_resolution = t_duration/n_slides
-
-        for i, line in enumerate(strings):
-
-            if trigger in line:
-                events.append([strings[i+1][18:-2], float(strings[i+2][15:-6])/1000])
+       
+        events = (
+            [strings[i+1][18:-2], float(strings[i+2][15:-6])/1000] for i, line in enumerate(strings) if trigger in line
+        )
 
     return events, t_resolution
        
@@ -40,6 +37,8 @@ def file_finder(path, pattern):
             #if file.endswith('.txt') and not file.startswith('!'):
             if re.search(pattern, filename):
                 files_list.append([root if root[-1] == '/' else root + '/', filename[:-4]])
+
+    #files_list = [[[[root if root[-1] == '/' else root + '/', filename[:-4]] for filename in files if re.search(pattern, filename)] for root, _, files in os.walk(path)]]
 
     return files_list
 
