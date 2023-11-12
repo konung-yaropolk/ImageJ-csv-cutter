@@ -21,7 +21,7 @@ def metadata_parser(path, file):
         t_resolution = t_duration/n_slides
        
         events = (
-            [strings[i+1][18:-2], float(strings[i+2][15:-6])/1000] for i, line in enumerate(strings) if trigger in line
+            (strings[i+1][18:-2], float(strings[i+2][15:-6])/1000) for i, line in enumerate(strings) if trigger in line
         )
 
     return events, t_resolution
@@ -30,15 +30,13 @@ def metadata_parser(path, file):
 def file_finder(path, pattern):
     files_list = []  # To store the paths of .txt files
 
-    # Walk through the directory and its subdirectories
+    # # Walk through the directory and its subdirectories
     for root, _, files in os.walk(path):
 
         for filename in files:
             #if file.endswith('.txt') and not file.startswith('!'):
             if re.search(pattern, filename):
                 files_list.append([root if root[-1] == '/' else root + '/', filename[:-4]])
-
-    #files_list = [[[[root if root[-1] == '/' else root + '/', filename[:-4]] for filename in files if re.search(pattern, filename)] for root, _, files in os.walk(path)]]
 
     return files_list
 
@@ -133,7 +131,7 @@ def main():
     # walk thrue directories to add files to the queue 
     for dir in s.DIRECTORIES:
         queue.extend(file_lister(dir, r'^[^!].*\.txt$'))
-
+    print(queue)
     # append metadata to the queue
     for i, item in enumerate(queue):
         try: metadata, t_resolution = metadata_parser(item[0], item[1])
