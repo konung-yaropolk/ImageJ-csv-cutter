@@ -147,7 +147,6 @@ def main():
         queue[i].append(metadata)
         queue[i].append(t_resolution)
 
-
     for item in queue:
 
         if len(item)==4:
