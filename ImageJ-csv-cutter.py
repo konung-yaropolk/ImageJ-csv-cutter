@@ -7,7 +7,7 @@ import settings as s
 
 def metadata_parser(path, file):    
 
-    with open(path + file + '.txt', 'r') as file:        
+    with open('{}{}.txt'.format(path, file), 'r') as file:        
 
         trigger = '"[Event '
         strings = file.readlines()
@@ -63,7 +63,13 @@ def zero_point_adjuster(content, time):
 def csv_write(csv_output, path, file, event_name, i):
 
     os.makedirs(path + file + '_events/', exist_ok=True)
-    with open(path + file + '_events/' + str(i+1) + '_' + event_name + '_[-' + str(s.TIME_BEFORE_TRIG) + 's ; +' + str(s.TIME_AFTER_TRIG) + 's]' +  '.csv', 'w') as f:
+    with open('{}{}_events/{}_{}_[-{}s ; +{}s].csv'.format(
+            path, 
+            file, str(i+1), 
+            event_name, 
+            str(s.TIME_BEFORE_TRIG), 
+            str(s.TIME_AFTER_TRIG)
+        ), 'w') as f:                
 
         writer = csv.writer(f, delimiter=',', lineterminator='\r',)
         for row in csv_output:
@@ -131,7 +137,7 @@ def main():
     # walk thrue directories to add files to the queue 
     for dir in s.DIRECTORIES:
         queue.extend(file_lister(dir, r'^[^!].*\.txt$'))
-    print(queue)
+
     # append metadata to the queue
     for i, item in enumerate(queue):
         try: metadata, t_resolution = metadata_parser(item[0], item[1])
