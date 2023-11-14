@@ -1,5 +1,9 @@
 '''
 ImageJ-csv-cutter
+
+Simple tool for processing Ca-metry data recieved using Olympus Confocal or 2-photon microscopes.
+Given script reformats your ImageJ ROI cvs-multimeasurements, based on the events timing in Olympus metadata.
+
 Algorythm explanation:
 
 1. Lists all of the .txt files (excluding .txt files that names starts with !) in all subdirectories of listed in DIRECTORIES pathes.
@@ -7,6 +11,9 @@ Algorythm explanation:
 3. lists all the .csv files, wich names starts the same as the collected metadata .txt file names and wich have the same full patch
 4. creates subdirectories with the same names as each listed 'generic' .csv files
 5. puts inside modified .csv files for each of listed 'generic' .csv files
+
+
+List below directories containing data (tiff + txt), then simple run the script.
 
 '''
 
