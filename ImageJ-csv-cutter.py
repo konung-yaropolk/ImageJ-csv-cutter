@@ -86,7 +86,7 @@ def csv_cutter(content, eventname, time):
     content[:0] = [timeline_zero]
     csv_output = list(zip(*content))[start:end]
 
-    yield csv_output
+    return csv_output
 
 
 def csv_transform(content_raw, t_resolution):
