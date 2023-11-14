@@ -121,7 +121,7 @@ def csv_process(path, file, metadata, t_resolution=1000):
     csv_list.extend(
         file_lister(
             path,
-            r'.*' + re.escape(file) + r'.*\.csv$',
+            r'^' + re.escape(file) + r'.*\.csv$',
             nonrecursive=True
         )
     )
