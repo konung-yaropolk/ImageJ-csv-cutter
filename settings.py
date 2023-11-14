@@ -1,8 +1,10 @@
 '''
 ImageJ-csv-cutter
+MIT License
+Copyright (c) 2023 konung-yaropolk
 
-Simple tool for processing Ca-metry data recieved using Olympus Confocal or 2-photon microscopes.
-Given script reformats your ImageJ ROI cvs-multimeasurements, based on the events timing in Olympus metadata.
+Simple tool for Ca-metry data preprocessing, recieved using Olympus Fluoview software.
+Given script reformats your ImageJ ROI cvs-multimeasurements, based on the events timing from Olympus Fluoview metadata.
 
 Algorythm explanation:
 
