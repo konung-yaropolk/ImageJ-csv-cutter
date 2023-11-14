@@ -3,7 +3,7 @@ ImageJ-csv-cutter
 MIT License
 Copyright (c) 2023 konung-yaropolk
 
-Simple tool for Ca-metry data preprocessing, recieved using Olympus Fluoview software.
+Simple tool for Calcium-imaging data preprocessing, based on timing-metadata from Olympus Fluoview sowtware
 Given script reformats your ImageJ ROI cvs-multimeasurements, based on the events timing from Olympus Fluoview metadata.
 
 Algorythm explanation:
