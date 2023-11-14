@@ -1,5 +1,5 @@
 TIME_BEFORE_TRIG = 10    # in sec.
-TIME_AFTER_TRIG  = 110    # in sec.
+TIME_AFTER_TRIG  = 30    # in sec.
 
 DIRECTORIES = [
     # 'C:\\Users\\Lenin\\coding\\ImageJ-csv-cutter',
