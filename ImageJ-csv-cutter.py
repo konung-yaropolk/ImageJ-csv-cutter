@@ -27,7 +27,7 @@ def metadata_parser(path, file):
     return events, t_resolution
        
 
-def file_finder(path, pattern):
+def file_finder(path, pattern, nonrecursive=False):
     files_list = []  # To store the paths of .txt files
 
     # # Walk through the directory and its subdirectories
@@ -37,15 +37,24 @@ def file_finder(path, pattern):
             #if file.endswith('.txt') and not file.startswith('!'):
             if re.search(pattern, filename):
                 files_list.append([root if root[-1] == '/' else root + '/', filename[:-4]])
+        
+        if nonrecursive:
+            break
 
     return files_list
 
 
-def file_lister(path, pattern):
+def file_lister(path, pattern, nonrecursive=False):
     files = []
 
     if os.path.isdir(path):        
-        files.extend(file_finder(path, pattern))                
+        files.extend(
+            file_finder(
+                path,
+                pattern,
+                nonrecursive
+            )
+        )                
     else:
         print("!!!    Fail: invalid path        ", path)
     
@@ -109,7 +118,13 @@ def csv_read(patch, file):
 
 def csv_process(path, file, metadata, t_resolution=1000):
     csv_list = []
-    csv_list.extend(file_lister(path, r'.*' + re.escape(file) + r'.*\.csv$'))
+    csv_list.extend(
+        file_lister(
+            path,
+            r'.*' + re.escape(file) + r'.*\.csv$',
+            nonrecursive=True
+        )
+    )
 
     if csv_list:
 
