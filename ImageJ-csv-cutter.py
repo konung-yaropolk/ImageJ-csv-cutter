@@ -32,9 +32,7 @@ def file_finder(path, pattern, nonrecursive=False):
 
     # # Walk through the directory and its subdirectories
     for root, _, files in os.walk(path):
-
         for filename in files:
-            #if file.endswith('.txt') and not file.startswith('!'):
             if re.search(pattern, filename):
                 files_list.append([root if root[-1] == '/' else root + '/', filename[:-4]])
         
@@ -77,12 +75,12 @@ def csv_write(csv_output, path, file, event_name, i):
             writer.writerow(row)
 
 
-def find_value_index(content, time):
+def find_time_index(content, time):
     content = (float(i)-time for i in list(zip(*content))[0])
     diffs = [abs(i) for i in content]
-    t_zero_index = diffs.index(min(diffs))
+    index = diffs.index(min(diffs))
 
-    return t_zero_index
+    return index
 
 
 def normalize(content, start, zero):
@@ -92,9 +90,10 @@ def normalize(content, start, zero):
         baseline = column[start:zero]
         baseline_sum = sum((float(cell) for cell in baseline))
         mean = baseline_sum/len(baseline)
+        
+        column_normalized = [(float(cell)-mean)/mean for cell in column]    # dF/F0
+        #column_normalized = [float(cell)/mean for cell in column]          # dF/F
 
-        # dF/F0 formula:
-        column_normalized = [(float(cell)-mean)/mean for cell in column]
         content_normalized.append(column_normalized)
 
     return content_normalized
@@ -103,16 +102,15 @@ def normalize(content, start, zero):
 def csv_cutter(content, eventname, time):
     timeline_zero = (float(i)-time for i in list(zip(*content))[0])
 
-    start = find_value_index(content, time - s.TIME_BEFORE_TRIG)
-    end = find_value_index(content, time + s.TIME_AFTER_TRIG)
-    zero = find_value_index(content, time)
+    start = find_time_index(content, time - s.TIME_BEFORE_TRIG)
+    end = find_time_index(content, time + s.TIME_AFTER_TRIG)
+    zero = find_time_index(content, time)
     
     content = list(zip(*content))[1:]
     content[:0] = [timeline_zero]
 
     if s.RELATIVE_VALUES: 
-        content_normalized = normalize(content[1:], start, zero)
-        content[1:] = content_normalized
+        content[1:] = normalize(content[1:], start, zero)        
 
     csv_output = list(zip(*content))[start:end]
 
