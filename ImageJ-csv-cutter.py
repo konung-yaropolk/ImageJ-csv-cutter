@@ -61,14 +61,6 @@ def file_lister(path, pattern, nonrecursive=False):
     return files
 
 
-def zero_point_adjuster(content, time):
-    content = (float(i)-time for i in list(zip(*content))[0])
-    diffs = [abs(i) for i in content]
-    t_zero_index = diffs.index(min(diffs))
-
-    return t_zero_index
-
-
 def csv_write(csv_output, path, file, event_name, i):
 
     os.makedirs(path + file + '_events/', exist_ok=True)
@@ -82,17 +74,46 @@ def csv_write(csv_output, path, file, event_name, i):
 
         writer = csv.writer(f, delimiter=',', lineterminator='\r',)
         for row in csv_output:
-            writer.writerow(row)        
+            writer.writerow(row)
+
+
+def find_value_index(content, time):
+    content = (float(i)-time for i in list(zip(*content))[0])
+    diffs = [abs(i) for i in content]
+    t_zero_index = diffs.index(min(diffs))
+
+    return t_zero_index
+
+
+def normalize(content, start, zero):
+    content_normalized = []
+    
+    for column in content:
+        baseline = column[start:zero]
+        baseline_sum = sum((float(cell) for cell in baseline))
+        mean = baseline_sum/len(baseline)
+
+        # dF/F0 formula:
+        column_normalized = [(float(cell)-mean)/mean for cell in column]
+        content_normalized.append(column_normalized)
+
+    return content_normalized
 
 
 def csv_cutter(content, eventname, time):
     timeline_zero = (float(i)-time for i in list(zip(*content))[0])
 
-    start = zero_point_adjuster(content, time - s.TIME_BEFORE_TRIG)
-    end = zero_point_adjuster(content, time + s.TIME_AFTER_TRIG)
+    start = find_value_index(content, time - s.TIME_BEFORE_TRIG)
+    end = find_value_index(content, time + s.TIME_AFTER_TRIG)
+    zero = find_value_index(content, time)
     
     content = list(zip(*content))[1:]
     content[:0] = [timeline_zero]
+
+    if s.RELATIVE_VALUES: 
+        content_normalized = normalize(content[1:], start, zero)
+        content[1:] = content_normalized
+
     csv_output = list(zip(*content))[start:end]
 
     return csv_output
