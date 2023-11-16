@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 '''
 ImageJ-csv-cutter
 MIT License
