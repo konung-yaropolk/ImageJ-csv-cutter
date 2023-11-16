@@ -92,8 +92,8 @@ def normalize(content, start, zero):
         baseline_len = len(baseline)
         mean = baseline_sum/baseline_len if baseline_len else 1
         
-        column_normalized = ((float(cell)-mean)/mean for cell in column)    # dF/F0
-        #column_normalized = (float(cell)/mean for cell in column)          # dF/F
+        column_normalized = [(float(cell)-mean)/mean for cell in column]    # dF/F0
+        #column_normalized = [float(cell)/mean for cell in column]          # dF/F
 
         content_normalized.append(column_normalized)
 
