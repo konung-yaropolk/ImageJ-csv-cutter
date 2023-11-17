@@ -20,8 +20,8 @@ List below directories containing data (tiff + txt), then simple run the script.
 
 '''
 
-TIME_BEFORE_TRIG = 10    # in sec.
-TIME_AFTER_TRIG  = 30    # in sec.
+TIME_BEFORE_TRIG = 10    # in sec, zero - all trace
+TIME_AFTER_TRIG  = 30    # in sec, zero - all trace
 
 RELATIVE_VALUES = True   # dF/F0 output format
 
