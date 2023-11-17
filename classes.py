@@ -15,7 +15,7 @@ class Queue:
         for dir in dirs:
             self.out.extend(self.file_lister(dir, r'^[^!].*\.txt$'))
         
-        return self.out = []
+        return self.out
 
 
 
