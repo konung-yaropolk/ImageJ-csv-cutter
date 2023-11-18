@@ -103,9 +103,9 @@ def normalize(content, start, zero):
 def csv_cutter(content, eventname, time):
     timeline_zero = (float(i)-time for i in list(zip(*content))[0])
 
-    start = find_time_index(content, time - s.TIME_BEFORE_TRIG) if s.TIME_BEFORE_TRIG else 0
+    start = find_time_index(content, time - s.TIME_BEFORE_TRIG) if s.TIME_BEFORE_TRIG else None
     zero = find_time_index(content, time)
-    end = find_time_index(content, time + s.TIME_AFTER_TRIG) if s.TIME_AFTER_TRIG else 0
+    end = find_time_index(content, time + s.TIME_AFTER_TRIG) if s.TIME_AFTER_TRIG else None
     
     content = list(zip(*content))[1:]
     content[:0] = [timeline_zero]
