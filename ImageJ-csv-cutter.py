@@ -156,7 +156,7 @@ def csv_process(path, file, metadata, t_resolution=1000):
                 csv_output = csv_cutter(content, *event)
                 csv_write(csv_output, csv_path, csv_file ,event[0], i)
 
-        result = '***    Done: csv files for        {}{}'.format(path, file)
+        result = '***    Done: {} csv files for        {}{}'.format(len(csv_list), path, file)
     
     else:
         result = '!!!    Fail: no csv files for     {}{}'.format(path, file)
