@@ -154,7 +154,11 @@ def csv_process(path, file, metadata, t_resolution=1000):
 
             for i, event in enumerate(metadata):                
                 csv_output = csv_cutter(content, *event)
-                csv_write(csv_output, csv_path, csv_file ,event[0], i)
+                try: 
+                    csv_write(csv_output, csv_path, csv_file ,event[0], i)
+                except PermissionError:
+                    print('       File actually opened')
+                    continue
 
         result = '***    Done: csv files for        {}{}'.format(path, file)
     
