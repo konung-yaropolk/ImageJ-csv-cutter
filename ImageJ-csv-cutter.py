@@ -20,9 +20,9 @@ def metadata_parser(path, file):
         t_duration = float(re.findall(r'- ([^[]*)\ \[', string)[0])
         t_resolution = t_duration/n_slides
        
-        events = (
+        events = [
             (strings[i+1][18:-2], float(strings[i+2][15:-6])/1000) for i, line in enumerate(strings) if trigger in line
-        )
+        ]
 
     return events, t_resolution
        
@@ -59,16 +59,19 @@ def file_lister(path, pattern, nonrecursive=False):
     return files
 
 
-def csv_write(csv_output, path, file, event_name, i):
+def csv_write(csv_output, path, file, i, event_name):
 
     os.makedirs(path + file + '_events/', exist_ok=True)
-    with open('{}{}_events/{}_{}_[-{}s ; +{}s].csv'.format(
-            path, 
-            file, str(i+1), 
-            event_name, 
-            str(s.TIME_BEFORE_TRIG), 
-            str(s.TIME_AFTER_TRIG)
-        ), 'w') as f:                
+    with open(
+            '{}{}_events/{}_{}_[-{}s ; +{}s].csv'.format(
+                path, 
+                file,
+                str(i+1), 
+                event_name, 
+                str(s.TIME_BEFORE_TRIG), 
+                str(s.TIME_AFTER_TRIG)
+            ), 
+            'w') as f:                
 
         writer = csv.writer(f, delimiter=',', lineterminator='\r',)
         for row in csv_output:
@@ -152,15 +155,15 @@ def csv_process(path, file, metadata, t_resolution=1000):
             content_raw = csv_read(csv_path, csv_file)
             content = csv_transform(content_raw, t_resolution)     
 
-            for i, event in enumerate(metadata):                
+            for i, event in enumerate(metadata):          
                 csv_output = csv_cutter(content, *event)
                 try: 
-                    csv_write(csv_output, csv_path, csv_file ,event[0], i)
+                    csv_write(csv_output, csv_path, csv_file ,i ,event[0])
                 except PermissionError:
-                    print('       File actually opened')
+                    print('       File actually opened:')
                     continue
 
-        result = '***    Done: {} csv files for        {}{}'.format(len(csv_list), path, file)
+        result = '***    Done: {} csv files for      {}{}'.format(len(csv_list), path, file)
     
     else:
         result = '!!!    Fail: no csv files for     {}{}'.format(path, file)
