@@ -74,7 +74,7 @@ def csv_write(csv_output, path, file, i, event_name):
             ),
             'w') as f:
 
-        writer = csv.writer(f, delimiter=',', lineterminator='\r',)
+        writer = csv.writer(f, delimiter=s.CSV_DELIMITER, lineterminator='\r',)
         for row in csv_output:
             writer.writerow(row)
 
