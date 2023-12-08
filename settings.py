@@ -25,7 +25,7 @@ TIME_BEFORE_TRIG = 10    # time in sec, 0 - full trace
 TIME_AFTER_TRIG  = 20    # time in sec, 0 - full trace
 
 RELATIVE_VALUES = True   # dF/F0 output format
-CSV_DELIMITER = '	'
+CSV_DELIMITER = ','
 
 DIRECTORIES = [
 
