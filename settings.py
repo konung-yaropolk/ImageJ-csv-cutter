@@ -29,6 +29,7 @@ CSV_DELIMITER = ','
 
 DIRECTORIES = [
 
+    # 'F:/Lab Work Files/2-photon/TRP project Ca-imaging with DRS + TRPC3, TRPA1, TRPM3 activators + Caps/',
     # 'F:/Lab Work Files/2-photon/Pirt_GCamp3 x MCU-KO + DRS + Caps/',
     # 'F:/Lab Work Files/2-photon/Microglia + C5a/',
     # 'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco SNI or SHAM + DRS  + PMX205 + Bicuculine/',
