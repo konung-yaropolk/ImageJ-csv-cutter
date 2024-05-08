@@ -171,7 +171,7 @@ def csv_process(path, file, metadata, t_resolution=1000):
             len(csv_list), path, file)
 
     else:
-        result = '!!!    Fail: no csv files for     {}{}'.format(path, file)
+        result = '---    Skip: no csv files for     {}{}'.format(path, file)
 
     csv_list = None
     return result
