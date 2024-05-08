@@ -20,12 +20,14 @@ List below directories containing data (tiff + txt), then simple run the script.
 
 '''
 
-
+# input parameters:
 TIME_BEFORE_TRIG = 10    # time in sec, 0 - full trace
-TIME_AFTER_TRIG  = 0    # time in sec, 0 - full trace
+TIME_AFTER_TRIG  = 0     # time in sec, 0 - full trace
+MINIMAL_AREA = 0         # set the minimum area in pixels for ROI to be included (ToDo)
 
+# output parameters:
 RELATIVE_VALUES = True   # dF/F0 output format
-CSV_DELIMITER = ','
+CSV_DELIMITER = ','      # delimiter to be used when saving .csv
 
 DIRECTORIES = [
 

@@ -87,7 +87,7 @@ def find_time_index(content, time):
     return index
 
 
-def normalize(content, start, zero):
+def data_normalize(content, start, zero):
     content_normalized = []
 
     for column in content:
@@ -118,7 +118,7 @@ def csv_cutter(content, eventname, time):
     content[:0] = [timeline_zero]
 
     if s.RELATIVE_VALUES:
-        content[1:] = normalize(content[1:], start, zero)
+        content[1:] = data_normalize(content[1:], start, zero)
 
     csv_output = list(zip(*content))[start:end]
 
