@@ -21,9 +21,12 @@ List below directories containing data (tiff + txt), then simple run the script.
 '''
 
 # input parameters:
-TIME_BEFORE_TRIG = 10    # time in sec, 0 - full trace
-TIME_AFTER_TRIG  = 0     # time in sec, 0 - full trace
-MINIMAL_AREA = 0         # set the minimum area in pixels for ROI to be included (ToDo)
+TIME_BEFORE_TRIG = 0     # start trace from this timepoint (s. before trigger), 0 - full trace
+TIME_AFTER_TRIG  = 0     # finish trace at this timepoint   (s. after trigger), 0 - full trace
+BASELINE_DURATON = 10    # set this many sec. before trigger as baseline (make sense if RELATIVE_VALUES activated),
+                         # 0 - take TIME_BEFORE_TRIG value
+
+MINIMAL_AREA = 0         # set the minimum area in pixels for ROI to be included (perspective feature)
 
 # output parameters:
 RELATIVE_VALUES = True   # dF/F0 output format
@@ -31,7 +34,7 @@ CSV_DELIMITER = ','      # delimiter to be used when saving .csv
 
 DIRECTORIES = [
 
-     'F:/Lab Work Files/2-photon/TRP project Ca-imaging with DRS + TRPC3, TRPA1, TRPM3 activators + Caps/2024_04_23',
+    # 'F:/Lab Work Files/2-photon/TRP project Ca-imaging with DRS + TRPC3, TRPA1, TRPM3 activators + Caps',
     # 'F:/Lab Work Files/2-photon/Pirt_GCamp3 x MCU-KO + DRS + Caps/',
     # 'F:/Lab Work Files/2-photon/Microglia + C5a/',
     # 'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco SNI or SHAM + DRS  + PMX205 + Bicuculine/',

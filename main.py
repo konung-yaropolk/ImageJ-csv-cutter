@@ -2,7 +2,27 @@
 import os
 import re
 import csv
-import settings as s
+
+
+def import_settings():
+
+    import settings as s
+
+    global TIME_BEFORE_TRIG
+    global TIME_AFTER_TRIG
+    global BASELINE_DURATON
+    global MINIMAL_AREA
+    global RELATIVE_VALUES
+    global CSV_DELIMITER
+    global DIRECTORIES
+
+    TIME_BEFORE_TRIG = s.TIME_BEFORE_TRIG
+    TIME_AFTER_TRIG = s.TIME_AFTER_TRIG
+    BASELINE_DURATON = s.BASELINE_DURATON
+    MINIMAL_AREA = s.MINIMAL_AREA
+    RELATIVE_VALUES = s.RELATIVE_VALUES
+    CSV_DELIMITER = s.CSV_DELIMITER
+    DIRECTORIES = s.DIRECTORIES
 
 
 def metadata_parser(path, file):
@@ -69,12 +89,12 @@ def csv_write(csv_output, path, file, i, event_name):
                 file,
                 str(i+1),
                 event_name,
-                str(s.TIME_BEFORE_TRIG),
-                str(s.TIME_AFTER_TRIG)
+                str(TIME_BEFORE_TRIG),
+                str(TIME_AFTER_TRIG)
             ),
             'w') as f:
 
-        writer = csv.writer(f, delimiter=s.CSV_DELIMITER, lineterminator='\r',)
+        writer = csv.writer(f, delimiter=CSV_DELIMITER, lineterminator='\r',)
         for row in csv_output:
             writer.writerow(row)
 
@@ -109,16 +129,21 @@ def csv_cutter(content, eventname, time):
     timeline_zero = (float(i)-time for i in list(zip(*content))[0])
 
     start = find_time_index(
-        content, time - s.TIME_BEFORE_TRIG) if s.TIME_BEFORE_TRIG else None
+        content, time - TIME_BEFORE_TRIG) if TIME_BEFORE_TRIG else None
+    
+    start_bl = find_time_index(
+        content, time - BASELINE_DURATON) if BASELINE_DURATON else start
+    
     zero = find_time_index(content, time)
+
     end = find_time_index(
-        content, time + s.TIME_AFTER_TRIG) if s.TIME_AFTER_TRIG else None
+        content, time + TIME_AFTER_TRIG) if TIME_AFTER_TRIG else None
 
     content = list(zip(*content))[1:]
     content[:0] = [timeline_zero]
 
-    if s.RELATIVE_VALUES:
-        content[1:] = data_normalize(content[1:], start, zero)
+    if RELATIVE_VALUES:
+        content[1:] = data_normalize(content[1:], start_bl, zero)
 
     csv_output = list(zip(*content))[start:end]
 
@@ -179,10 +204,11 @@ def csv_process(path, file, metadata, t_resolution=1000):
 
 def main():
 
+    import_settings()
     queue = []
 
     # walk thrue directories to add files to the queue
-    for dir in s.DIRECTORIES:
+    for dir in DIRECTORIES:
         queue.extend(file_lister(dir, r'^[^!].*\.txt$'))
 
     # append metadata to the queue
@@ -190,7 +216,7 @@ def main():
         try:
             metadata, t_resolution = metadata_parser(item[0], item[1])
         except ValueError as _:
-            print('!!!    Fail: wrong metadata for   {}{}'.format(
+            print('---    Skip: wrong metadata for   {}{}'.format(
                 item[0], item[1]))
             continue
         queue[i].append(metadata)
