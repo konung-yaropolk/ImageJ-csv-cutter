@@ -87,7 +87,7 @@ def csv_write(csv_output, path, file, i, event_name):
             '{}{}_events/{}_{}_[-{}s ; +{}s].csv'.format(
                 path,
                 file,
-                str(i+1),
+                str(i),
                 event_name,
                 str(TIME_BEFORE_TRIG),
                 str(TIME_AFTER_TRIG)
@@ -177,6 +177,9 @@ def csv_process(path, file, metadata, t_resolution=1000):
             nonrecursive=True
         )
     )
+
+    # adding all trace overview file starting from almost 0 time point
+    # metadata.insert(0,['ALL_TRACE', 5])
 
     if csv_list:
 
