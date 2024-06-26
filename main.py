@@ -87,7 +87,7 @@ def csv_write(csv_output, path, file, i, event_name):
             '{}{}_events/{}_{}_[-{}s ; +{}s].csv'.format(
                 path,
                 file,
-                str(i),
+                str(i+1),
                 event_name,
                 str(TIME_BEFORE_TRIG),
                 str(TIME_AFTER_TRIG)
