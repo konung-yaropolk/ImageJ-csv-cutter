@@ -222,6 +222,10 @@ def main():
             print('---    Skip: wrong metadata for   {}{}'.format(
                 item[0], item[1]))
             continue
+        except IndexError as _:
+            print('---    Skip: wrong metadata for   {}{}'.format(
+                item[0], item[1]))
+            continue
         queue[i].append(metadata)
         queue[i].append(t_resolution)
 
