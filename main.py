@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import numpy as np
 import os
 import re
 import csv
@@ -114,11 +115,11 @@ def data_normalize(content, start, zero):
         baseline = column[start:zero]
         baseline_sum = sum((float(cell) for cell in baseline))
         baseline_len = len(baseline)
-        mean = baseline_sum/baseline_len if baseline_len else 1
+        mean = baseline_sum/baseline_len if baseline_len and baseline else 0
 
         column_normalized = [(float(cell)-mean) /
-                             mean for cell in column]                        # dF/F0
-        # column_normalized = [float(cell)/mean for cell in column]          # dF/F
+                             mean if mean else 0 for cell in column]                 # dF/F0
+        # column_normalized = [float(cell)/mean if mean else 1 for cell in column]   # dF/F
 
         content_normalized.append(column_normalized)
 
@@ -130,10 +131,10 @@ def csv_cutter(content, eventname, time):
 
     start = find_time_index(
         content, time - TIME_BEFORE_TRIG) if TIME_BEFORE_TRIG else None
-    
+
     start_bl = find_time_index(
         content, time - BASELINE_DURATON) if BASELINE_DURATON else start
-    
+
     zero = find_time_index(content, time)
 
     end = find_time_index(

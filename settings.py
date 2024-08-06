@@ -24,7 +24,7 @@ List below directories containing data (tiff + txt), then simple run the script.
 # start trace from this timepoint (s. before trigger), 0 - full trace
 TIME_BEFORE_TRIG = 10
 # finish trace at this timepoint   (s. after trigger), 0 - full trace
-TIME_AFTER_TRIG = 35
+TIME_AFTER_TRIG = 20
 # set this many sec. before trigger as baseline (make sense if RELATIVE_VALUES activated),
 BASELINE_DURATON = 10
 # 0 - take TIME_BEFORE_TRIG value
@@ -38,7 +38,8 @@ CSV_DELIMITER = ','      # delimiter to be used when saving .csv
 
 DIRECTORIES = [
 
-    'F:/Lab Work Files/2-photon/TRP project Ca-imaging with DRS + TRPC3, TRPA1, TRPM3 activators + Caps/2024_07_23_M2/',
+    'F:/Lab Work Files/2-photon/TRP project/2024_07_22/',
+    # '/run/media/lol/Yarik Data/Lab Work Files/2-photon/TRP project Ca-imaging with DRS + TRPC3, TRPA1, TRPM3 activators + Caps/2024_07_23_M2/',
     # 'F:/Lab Work Files/2-photon/Pirt_GCamp3 x MCU-KO + DRS + Caps/',
     # 'F:/Lab Work Files/2-photon/Microglia + C5a/',
     # 'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco SNI or SHAM + DRS  + PMX205 + Bicuculine/',
