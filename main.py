@@ -85,13 +85,14 @@ def csv_write(csv_output, path, file, i, event_name):
 
     os.makedirs(path + file + '_events/', exist_ok=True)
     with open(
-            '{}{}_events/{}_{}_[-{}s ; +{}s].csv'.format(
+            '{}{}_events/{}_{}_[-{}s ; +{}s]_bl_-{}s.csv'.format(
                 path,
                 file,
                 str(i+1),
                 event_name,
                 str(TIME_BEFORE_TRIG),
-                str(TIME_AFTER_TRIG)
+                str(TIME_AFTER_TRIG),
+                str(BASELINE_DURATON),
             ),
             'w') as f:
 
