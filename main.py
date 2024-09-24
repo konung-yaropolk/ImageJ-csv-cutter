@@ -152,9 +152,13 @@ def csv_cutter(content, eventname, time):
     return csv_output
 
 
-def csv_transform(content_raw, t_resolution):
+def csv_transform(content_raw,
+                  t_resolution,
+                  mean_col=2,   # order of "Mean" col in measurments
+                  n_cols=4      # n of measurments for each ROI
+                  ):
     first_col = (str(i*t_resolution) for i in range(len(content_raw)))
-    content = list(zip(*content_raw))[2::4]
+    content = list(zip(*content_raw))[mean_col::n_cols]
     content[:0] = [first_col]
     content = list(zip(*content))[1:]
 
