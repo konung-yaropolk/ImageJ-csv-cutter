@@ -3,6 +3,10 @@ import numpy as np
 import os
 import re
 import csv
+import settings as s
+
+MEAN_COL_ORDER = s.MEAN_COL_ORDER
+COLS_PER_ROI = s.COLS_PER_ROI
 
 
 def import_settings():
@@ -154,8 +158,8 @@ def csv_cutter(content, eventname, time):
 
 def csv_transform(content_raw,
                   t_resolution,
-                  mean_col=2,   # order of "Mean" col in measurments
-                  n_cols=4      # n of measurments for each ROI
+                  mean_col=MEAN_COL_ORDER,  # order of "Mean" col in measurments
+                  n_cols=COLS_PER_ROI,      # n of measurments for each ROI
                   ):
     first_col = (str(i*t_resolution) for i in range(len(content_raw)))
     content = list(zip(*content_raw))[mean_col::n_cols]

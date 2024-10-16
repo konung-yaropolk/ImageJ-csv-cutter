@@ -25,7 +25,7 @@ List below directories containing data (tiff + txt), then simple run the script.
 TIME_BEFORE_TRIG = 10
 # start trace from this timepoint (s. before trigger), 0 - full trace
 
-TIME_AFTER_TRIG = 20
+TIME_AFTER_TRIG = 0
 # finish trace at this timepoint   (s. after trigger), 0 - full trace
 
 BASELINE_DURATON = 10
@@ -38,6 +38,8 @@ MINIMAL_AREA = 0
 # output parameters:
 RELATIVE_VALUES = True   # dF/F0 output format
 CSV_DELIMITER = ','      # delimiter to be used when saving .csv
+MEAN_COL_ORDER = 1  # default 2
+COLS_PER_ROI = 1  # default 4
 
 DIRECTORIES = [
 
@@ -46,9 +48,11 @@ DIRECTORIES = [
     # '/run/media/lol/Yarik Data/Lab Work Files/2-photon/TRP project Ca-imaging with DRS + TRPC3, TRPA1, TRPM3 activators + Caps/2024_07_23_M2/',
     # 'F:/Lab Work Files/2-photon/Pirt_GCamp3 x MCU-KO + DRS + Caps/',
     # 'F:/Lab Work Files/2-photon/Microglia + C5a/',
-    'F:\\Lab Work Files\\2-photon\\Pirt GCamp3 x Thy1 RGeco SNI or SHAM + DRS  + PMX205 + Bicuculine\\'
+    # 'F:\\Lab Work Files\\2-photon\\Pirt GCamp3 x Thy1 RGeco SNI or SHAM + DRS  + PMX205 + Bicuculine\\'
     # 'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco + DRS + C5a',
     # 'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco + DRS + Bicuculine/',
+    'F:/Lab Work Files/2-photon/Presynaptic inhibition Pirt GCamp3 + Bicuculine/2024_10_11/',
+
 
 ]
 
