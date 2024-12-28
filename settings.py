@@ -22,10 +22,10 @@ List below directories containing data (tiff + txt), then simple run the script.
 
 # input parameters:
 
-TIME_BEFORE_TRIG = 10
+TIME_BEFORE_TRIG = 0
 # start trace from this timepoint (s. before trigger), 0 - full trace
 
-TIME_AFTER_TRIG = 30
+TIME_AFTER_TRIG = 0
 # finish trace at this timepoint   (s. after trigger), 0 - full trace
 
 BASELINE_DURATON = 10
@@ -51,7 +51,7 @@ DIRECTORIES = [
     # 'F:\\Lab Work Files\\2-photon\\Pirt GCamp3 x Thy1 RGeco SNI or SHAM + DRS  + PMX205 + Bicuculine\\'
     # 'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco + DRS + C5a',
     # 'F:/Lab Work Files/2-photon/Pirt GCamp3 x Thy1 RGeco + DRS + Bicuculine/',
-    'F:/Lab Work Files/2-photon/TRP project Ca-imaging with DRS + TRPC3, TRPA1, TRPM3 activators + Caps/2024_07_23_M1/',
+    'F:/Lab Work Files/2-photon/TRP project Ca-imaging with DRS + TRPC3, TRPA1, TRPM3 activators + Caps/2024_07_23_M2/',
     # 'C:/Users/yandrianov/Desktop/2024_07_22/',
 
 
