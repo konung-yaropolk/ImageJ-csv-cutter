@@ -17,4 +17,4 @@ List directories containing data (tiff + txt) to the 'settings.py', then simple 
 
 To Do:
 - cut off columns by ROI area
-- do swich betwin dF/F0 and dF/F modes
+-Done: do swich betwin dF/F0 and dF/F modes
