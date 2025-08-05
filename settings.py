@@ -54,9 +54,9 @@ DIRECTORIES = [
     # 'D:/Lab Work Files/2-photon/TRP project Ca-imaging with DRS + TRPC3, TRPA1, TRPM3 activators + Caps/2024_04_29/',
     # 'C:/Users/yandrianov/Desktop/2024_07_22/',
     # 'D:/Lab Work Files/2-photon/PI_Pirt_GCamp3_x_Thy1_RGeco_PP_and_fiber_typing/2025_05_20/'
-    # 'F:/Lab Work Files/2-photon/HSD2-brainstem-slices/2025_07_23/'
+    'F:/Lab Work Files/2-photon/HSD2-brainstem-slices/2025_07_23/'
     # 'F:/Lab Work Files/2-photon/PI_Pirt_GCamp3_x_Thy1_RGeco_PP_and_fiber_typing/2025_05_21/'
-    '/run/media/mysh/Yarik Data/Lab Work Files/2-photon/Thy1-RGeco control/2025_07_28'
+    # '/run/media/mysh/Yarik Data/Lab Work Files/2-photon/Thy1-RGeco control/2025_07_28'
 ]
 
 
