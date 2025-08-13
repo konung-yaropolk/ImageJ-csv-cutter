@@ -56,7 +56,8 @@ DIRECTORIES = [
     # 'D:/Lab Work Files/2-photon/PI_Pirt_GCamp3_x_Thy1_RGeco_PP_and_fiber_typing/2025_05_20/'
     # 'F:/Lab Work Files/2-photon/HSD2-brainstem-slices/2025_07_23/'
     # 'F:/Lab Work Files/2-photon/PI_Pirt_GCamp3_x_Thy1_RGeco_PP_and_fiber_typing/2025_05_21/'
-    'f:/Lab Work Files/2-photon/Thy1-RGeco control/2025_08_04_M1/'
+    'f:/Lab Work Files/2-photon/Thy1-RGeco control/'
+
 ]
 
 
